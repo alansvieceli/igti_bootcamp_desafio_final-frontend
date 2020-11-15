@@ -11,10 +11,10 @@ const PeriodSelect = ({ onChange, value }) => {
   return (
     <div>
       <select value={value} onChange={handleChange} style={styles.select}>
-        {listPeriods.map(value => {
+        {listPeriods.map(obj => {
           return (
-            <option key={value} value={value}>
-              {value}
+            <option key={obj.value} value={obj.value}>
+              {obj.label}
             </option>
           );
         })}
