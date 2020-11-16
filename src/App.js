@@ -12,13 +12,23 @@ import { getNow } from './helpers/dates.js';
 
 const App = () => {
   const [dateFilter, setDateFilter] = useState(getNow());
+  const [descriptionFilter, setDescriptionFilter] = useState('');
   const [allTransactions, setAllTransactions] = useState([]);
+  const [filteredTransactions, setFilteredTransactions] = useState([]);
   const [receitas, setReceitas] = useState(0);
   const [despesas, setDespesas] = useState(0);
 
   const handleChange = value => {
-    //setAllTransactions([]);
     setDateFilter(value);
+  };
+
+  const handleChangeDescriotionFilter = value => {
+    const newFilteredTransactions = allTransactions.filter(trans =>
+      trans.descriptionLowerCase.includes(value.toLowerCase())
+    );
+
+    setDescriptionFilter(value);
+    setFilteredTransactions(newFilteredTransactions);
   };
 
   useEffect(() => {
@@ -26,23 +36,24 @@ const App = () => {
       const data = await api.getTransaction(dateFilter);
       setTimeout(() => {
         setAllTransactions(data);
+        setFilteredTransactions(data);
       }, 2000);
     };
     getTransaction();
   }, [dateFilter]);
 
   useEffect(() => {
-    const rec = allTransactions
+    const rec = filteredTransactions
       .filter(trans => trans.type === '+')
       .reduce((acc, curr) => acc + curr.value, 0);
 
-    const desp = allTransactions
+    const desp = filteredTransactions
       .filter(trans => trans.type === '-')
       .reduce((acc, curr) => acc + curr.value, 0);
 
     setReceitas(rec);
     setDespesas(desp);
-  }, [allTransactions]);
+  }, [filteredTransactions]);
 
   return (
     <div className="container">
@@ -58,8 +69,11 @@ const App = () => {
             despesas={despesas}
             saldo={receitas - despesas}
           />
-          <Filtro />
-          <Dados />
+          <Filtro
+            filter={descriptionFilter}
+            onChange={handleChangeDescriotionFilter}
+          />
+          <Dados data={filteredTransactions} />
         </div>
       )}
     </div>

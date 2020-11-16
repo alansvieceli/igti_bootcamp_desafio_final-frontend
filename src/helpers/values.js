@@ -12,4 +12,8 @@ function formatPercentage(value) {
   return stringValue.replace('.', ',') + '%';
 }
 
-export { formatNumber, formatPercentage };
+function formatInteger(value) {
+  return ('0' + value).slice(-2);
+}
+
+export { formatNumber, formatPercentage, formatInteger };

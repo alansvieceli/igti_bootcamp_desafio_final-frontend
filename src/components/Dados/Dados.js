@@ -1,11 +1,24 @@
-import React from 'react'
+import React from 'react';
 
-const Dados = () => {
+import Card from '../Card';
+
+const Dados = ({ data }) => {
   return (
     <div>
-      Dados
+      {data.map(obj => {
+        return (
+          <Card
+            key={obj._id}
+            day={obj.day}
+            category={obj.category}
+            description={obj.description}
+            value={obj.value}
+            type={obj.type}
+          />
+        );
+      })}
     </div>
-  )
-}
+  );
+};
 
-export default Dados
+export default Dados;

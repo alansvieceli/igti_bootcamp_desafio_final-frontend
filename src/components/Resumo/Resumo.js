@@ -17,7 +17,12 @@ const Resumo = ({ totLancamentos, receitas, despesas, saldo }) => {
         format={true}
         color={'vermelho'}
       />
-      <Text label={'Saldo'} value={saldo} format={true} color={'verde'} />
+      <Text
+        label={'Saldo'}
+        value={saldo}
+        format={true}
+        color={saldo < 0 ? 'vermelho' : 'verde'}
+      />
     </div>
   );
 };

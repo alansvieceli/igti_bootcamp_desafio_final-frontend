@@ -1,6 +1,10 @@
 import React from 'react';
 
-const Filtro = () => {
+const Filtro = ({ filter, onChange }) => {
+  const handleChange = event => {
+    onChange(event.target.value);
+  };
+
   return (
     <div style={styles.wrapper}>
       <div style={styles.botao}>
@@ -9,7 +13,12 @@ const Filtro = () => {
         </a>
       </div>
       <div style={styles.edit}>
-        <input placeholder="Filtro" />
+        <input
+          placeholder="Filtro"
+          type="text"
+          value={filter}
+          onChange={handleChange}
+        />
       </div>
     </div>
   );
@@ -22,7 +31,6 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'flex-start',
     paddingTop: '10px',
-    paddingBottom: '10px',
   },
   botao: {
     width: '24%',
