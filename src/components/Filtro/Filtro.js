@@ -5,12 +5,16 @@ const Filtro = ({ filter, onChange }) => {
     onChange(event.target.value);
   };
 
+  const handleClick = () => {
+    console.log('NOVO LANÇAMENTO');
+  };
+
   return (
     <div style={styles.wrapper}>
       <div style={styles.botao}>
-        <a className="waves-light btn">
+        <button className="waves-light btn" onClick={handleClick}>
           <i className="material-icons left">add</i>NOVO LANÇAMENTO
-        </a>
+        </button>
       </div>
       <div style={styles.edit}>
         <input
@@ -33,10 +37,10 @@ const styles = {
     paddingTop: '10px',
   },
   botao: {
-    width: '200px',
+    width: '220px',
   },
   edit: {
-    width: '76%',
+    flex: '1',
   },
 };
 

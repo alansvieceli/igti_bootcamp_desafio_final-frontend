@@ -1,12 +1,20 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Modal from 'react-modal';
 
 Modal.setAppElement('#root');
 
 const Cadastro = ({ data, onClose }) => {
+  const [errorMessage, setErrorMessage] = useState('');
+
   const handleModalClose = () => {
     onClose(null);
+  };
+
+  const handleKeyDown = event => {
+    if (event.key === 'Escape') {
+      onClose(null);
+    }
   };
 
   const handleFormSubmit = event => {
@@ -21,6 +29,13 @@ const Cadastro = ({ data, onClose }) => {
 
     //onSave(formData);
   };
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  });
 
   return (
     <div>
@@ -81,7 +96,13 @@ const Cadastro = ({ data, onClose }) => {
                 </label>
               </div>
               <div className="input-field col s6">
-                <input id="inputValor" type="number" value={data.value} />
+                <input
+                  id="inputValor"
+                  type="number"
+                  value={data.value}
+                  min={1}
+                  step="1"
+                />
                 <label className="active" htmlFor="inputValor">
                   Valor:
                 </label>
@@ -103,11 +124,11 @@ const Cadastro = ({ data, onClose }) => {
         <div style={styles.bottom}>
           <button
             className="waves-effect waves-light btn"
-            //disabled={errorMessage.trim() !== ''}
+            disabled={errorMessage.trim() !== ''}
           >
             Salvar
           </button>
-          <span style={styles.errorMessage}>Erro</span>
+          <span style={styles.errorMessage}>{errorMessage}</span>
         </div>
       </Modal>
     </div>

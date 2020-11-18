@@ -19,11 +19,13 @@ const App = () => {
   const [selectedTransaction, setSelectedTransaction] = useState({});
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const [receitas, setReceitas] = useState(0);
   const [despesas, setDespesas] = useState(0);
 
   const handleChangeDateFilter = value => {
+    setIsLoading(true);
     setDateFilter(value);
   };
 
@@ -54,6 +56,7 @@ const App = () => {
       setTimeout(() => {
         setAllTransactions(data);
         setFilteredTransactions(data);
+        setIsLoading(false);
       }, 2000);
     };
     getTransaction();
@@ -76,33 +79,33 @@ const App = () => {
     <div className="container">
       <Header />
       <h5 className="center">Controle Financeiro</h5>
-      {allTransactions.length <= 0 && <Spinner description={'Aguarde'} />}
-      {allTransactions.length > 0 && (
-        <div>
-          <Period
-            dateFilter={dateFilter}
-            onChangeFilter={handleChangeDateFilter}
-          />
-          <Resumo
-            totLancamentos={allTransactions.length}
-            receitas={receitas}
-            despesas={despesas}
-            saldo={receitas - despesas}
-          />
-          <Filtro
-            filter={descriptionFilter}
-            onChange={handleChangeDescriotionFilter}
-          />
-          <Dados
-            data={filteredTransactions}
-            onDelete={handleDelete}
-            onPersist={handlePersist}
-          />
-        </div>
-      )}
+      <div>
+        <Period
+          dateFilter={dateFilter}
+          onChangeFilter={handleChangeDateFilter}
+        />
+        <Resumo
+          totLancamentos={allTransactions.length}
+          receitas={receitas}
+          despesas={despesas}
+          saldo={receitas - despesas}
+        />
+        <Filtro
+          filter={descriptionFilter}
+          onChange={handleChangeDescriotionFilter}
+        />
+        <Dados
+          data={filteredTransactions}
+          onDelete={handleDelete}
+          onPersist={handlePersist}
+        />
+      </div>
+
       {isModalOpen && (
         <Cadastro data={selectedTransaction} onClose={handleModalClose} />
       )}
+
+      {isLoading && <Spinner description={'Aguarde'} />}
     </div>
   );
 };
