@@ -8,7 +8,7 @@ const Filtro = ({ filter, onChange }) => {
   return (
     <div style={styles.wrapper}>
       <div style={styles.botao}>
-        <a className="waves-effect waves-light btn">
+        <a className="waves-light btn">
           <i className="material-icons left">add</i>NOVO LANÇAMENTO
         </a>
       </div>
@@ -33,7 +33,7 @@ const styles = {
     paddingTop: '10px',
   },
   botao: {
-    width: '24%',
+    width: '200px',
   },
   edit: {
     width: '76%',

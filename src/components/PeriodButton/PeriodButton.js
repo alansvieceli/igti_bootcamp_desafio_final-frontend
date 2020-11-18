@@ -8,7 +8,7 @@ const PeriodButton = ({ onClick, type, icon }) => {
   return (
     <div style={styles.box}>
       <button
-        className="btn waves-effect waves-light"
+        className="btn waves-light"
         type="button"
         onClick={() => handleClick(type)}
       >
