@@ -1,22 +1,36 @@
 import React from 'react';
 
+import Action from '../Action';
 import { formatInteger, formatNumber } from '../../helpers/values.js';
 
-const Card = ({ day, category, description, value, type }) => {
-  const brackgroundColor = type === '-' ? styles.despesa : styles.receita;
+const Card = ({ data, onDelete, onPersist }) => {
+  const brackgroundColor = data.type === '-' ? styles.despesa : styles.receita;
+
+  const handleActionClick = (id, type) => {
+    if (type === 'delete') {
+      onDelete(id);
+      return;
+    }
+    onPersist(data);
+  };
+
   return (
     <div style={{ ...styles.wrapper, ...brackgroundColor }}>
       <div style={{ ...styles.containerBase, ...styles.day }}>
-        {formatInteger(day)}
+        {formatInteger(data.day)}
       </div>
       <div style={{ ...styles.containerBase, ...styles.wrapperDesc }}>
-        <div style={styles.category}>{category}</div>
-        <div style={styles.description}>{description}</div>
+        <div style={styles.category}>{data.category}</div>
+        <div style={styles.description}>{data.description}</div>
       </div>
-      <div style={styles.containerBase}>{formatNumber(value)}</div>
+      <div style={styles.containerBase}>{formatNumber(data.value)}</div>
       <div style={styles.containerBase}>
-        <i className="material-icons">edit</i>
-        <i className="material-icons">delete</i>
+        <Action type={'edit'} id={data._id} onActionClick={handleActionClick} />
+        <Action
+          type={'delete'}
+          id={data._id}
+          onActionClick={handleActionClick}
+        />
       </div>
     </div>
   );
